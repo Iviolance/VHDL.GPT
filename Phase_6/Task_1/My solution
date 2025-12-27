@@ -1,0 +1,12 @@
+Buttons :
+As this system has  3 different types of led functions, it can work of off 1 buttons
+to switch between the different led functions.
+    One press : first function
+    Second press : second function
+    Third press : third function
+
+Debouncer : 
+The buttons would require a debouncer function, this is not needed, but better to 
+have than not have.
+
+

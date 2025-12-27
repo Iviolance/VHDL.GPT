@@ -1,0 +1,36 @@
+Objective
+Design (and optionally implement) an FSM-controlled LED engine that updates LED patterns only on a timed tick, reinforcing the separation between time generation and control logic.
+
+What You’re Building
+A synchronous LED pattern engine with multiple operating modes, selected and controlled by a finite state machine.
+Modes (FSM states):
+1. Wrap chaser – LED shifts in one direction and wraps around.
+2. Ping-pong – LED bounces left ↔ right using a direction bit.
+3. Binary counter – LEDs count upward as an 8-bit value.
+
+Core Design Rules
+All logic is clocked and synchronous.
+Time comes from a counter/tick, not from loops or delays.
+LED state updates only on a tick.
+FSM state transitions occur only on a tick.
+One clock domain, one clocked process (or clean 2-process FSM if preferred).
+
+Signals to Define
+tick — 1-cycle enable from a counter
+led_reg(7 downto 0) — registered LED state
+mode(1 downto 0) — FSM state
+dir — direction bit for ping-pong mode
+mode_cnt — counts ticks to auto-advance modes (temporary stand-in for a button)
+
+Reset Behavior
+LEDs start at "10000000"
+FSM starts in wrap chaser mode
+Direction resets to a known value
+All counters reset cleanly
+
+Expected Outcome
+By the end of the session you should be able to:
+Explain how FSMs sit on top of timing logic
+Describe LED behavior in terms of state + tick
+Confidently sketch or code the FSM without guessing
+Be ready to later swap mode_cnt for a debounced button event
