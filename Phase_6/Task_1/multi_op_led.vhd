@@ -59,11 +59,7 @@ WHEN state_1 =>
       leds_reg = "10000000"
      ELSE
       state <= state_1;
-      IF tick = '1' THEN
        leds_reg <= leds_reg(0) & leds_reg(7 DOWNTO 1);
-      ELSE 
-       leds_reg <= leds_reg;
-      END IF;
      END IF: 
 
 WHEN state_2 =>
@@ -72,15 +68,13 @@ WHEN state_2 =>
       state <= state_3;
       leds_reg = "10000000";
      ELSE
-      IF tick = '1' THEN
       IF leds_reg = "10000000" THEN
        leds_reg <= leds_reg(0) & leds_reg(7 DOWNTO 1);
       ELSIF leds_reg = "00000001" THEN
-       leds_reg <= leds_reg (6 DOWNTO 0) & leds_reg(7)
+       leds_reg <= leds_reg (6 DOWNTO 0) & leds_reg(7);
       END IF;
       ELSE
        leds_reg <= led_reg;
-      END IF;
      END IF;
 
 WHEN state_3 =>
@@ -89,11 +83,7 @@ WHEN state_3 =>
       state <= state_1;
       leds_reg = "10000000";
      ELSE
-      IF tick = '1' THEN
        led_reg <= STD_LOGIC_VECTOR(unsigned(led_reg) + 1);
-      ELSE
-       led_reg <= led_reg;
-      END IF;
      END IF;
       
     
