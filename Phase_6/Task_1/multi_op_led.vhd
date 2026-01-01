@@ -24,26 +24,27 @@ TYPE state_t IS (state_idle, state_1, state_2, state_3);
 SIGNAL state : state_t := state_idle;
 SIGNAL leds_reg : STD_LOGIC_VECTOR(7 DOWNTO 0);
 SIGNAL tick : STD_LOGIC;
-SIGNAL btn_press_s : STD_LOGIC;
+SIGNAL btn_press_s : STD_LOGIC := '0';
 SIGNAL cnt : integer := 0;
 
 
 BEGIN
 
+btn_press <= btn_press_s;
 leds <= leds_reg;
 
 state_machine_led_multi_func : PROCESS(clk)
 BEGIN
-IF tick = '1' THEN
 CASE state IS
 IF rising_edge(clk) THEN
 IF rst = '1' THEN 
- leds_reg <= "10000000"
- state <= state_idle;
- cnt <= 0;
- state <= state_idle;
- tick <= '0';
+leds_reg <= "10000000";
+state <= state_idle;
+cnt <= 0;
+state <= state_idle;
 ELSE
+IF tick = '1' THEN
+
 WHEN state_idle => 
      leds_reg <= "10000000";
      IF btn_press_s = '1' THEN
@@ -60,7 +61,7 @@ WHEN state_1 =>
      ELSE
       state <= state_1;
        leds_reg <= leds_reg(0) & leds_reg(7 DOWNTO 1);
-     END IF: 
+     END IF;
 
 WHEN state_2 =>
      
@@ -72,9 +73,11 @@ WHEN state_2 =>
        leds_reg <= leds_reg(0) & leds_reg(7 DOWNTO 1);
       ELSIF leds_reg = "00000001" THEN
        leds_reg <= leds_reg (6 DOWNTO 0) & leds_reg(7);
+      ELSE
+       leds_reg <= leds_reg(0) & leds_reg(7 DOWNTO 1);
       END IF;
       ELSE
-       leds_reg <= led_reg;
+       leds_reg <= leds_reg;
      END IF;
 
 WHEN state_3 =>
@@ -83,7 +86,7 @@ WHEN state_3 =>
       state <= state_1;
       leds_reg = "10000000";
      ELSE
-       led_reg <= STD_LOGIC_VECTOR(unsigned(led_reg) + 1);
+       led_reg <= STD_LOGIC_VECTOR(unsigned(leds_reg) + 1);
      END IF;
       
     
@@ -97,7 +100,7 @@ END CASE;
 END IF;
 END PROCESS;
 
-counter : PROCESS
+counter : PROCESS(clk)
 BEGIN
 IF rising_edge(clk)
 IF rst = '1' THEN
@@ -113,7 +116,7 @@ ELSE
  END IF;
 END IF;
 END IF;
-END PROCESS:
+END PROCESS;
 
 END;
 

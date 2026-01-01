@@ -1,0 +1,11 @@
+--Phase 6 · Task 2 (current):
+
+--Two-mode FSM
+--Mode A: Wrap chaser
+--Mode B: Binary counter
+--Mode switching via btn_press
+--Tick-driven updates only
+
+LIBRARY ieee;
+USE 
+USE 
