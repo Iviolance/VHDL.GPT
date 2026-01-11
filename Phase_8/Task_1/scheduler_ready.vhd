@@ -24,7 +24,6 @@ BEGIN
 IF RISING_EDGE(clk) THEN
 IF RST = '1' THEN
 
- rd_data <= (others => '0');
  reg0    <= (others => '0');
  reg1    <= (others => '0');
  reg2    <= (others => '0');
@@ -33,21 +32,21 @@ IF RST = '1' THEN
 ELSIF wr_en = '1' THEN
  CASE addr IS
  WHEN "00" => reg0 <= wr_data;
- WHEN "01" => reg0 <= wr_data;
- WHEN "10" => reg0 <= wr_data;
- WHEN "11" => reg0 <= wr_data;
+ WHEN "01" => reg1 <= wr_data;
+ WHEN "10" => reg2 <= wr_data;
+ WHEN "11" => reg3 <= wr_data;
  WHEN others => null;
- END CASE:
+ END CASE;
  
 END IF;
 END IF;
-END PROCESS:
+END PROCESS;
 
 WITH addr SELECT
  rd_data <= reg0 WHEN "00",
             reg1 WHEN "01",
             reg2 WHEN "10",
             reg3 WHEN "11",
-            (others => '0')) WHEN others;
+            (others => '0') WHEN others;
 
 END;
